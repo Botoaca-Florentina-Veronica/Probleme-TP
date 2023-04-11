@@ -9,12 +9,12 @@ int stack_array[MAX_SIZE];
 int sorted_stack[MAX_SIZE];
 int top=-1;
 
-int isFull(top)
+int isFull(int top)
 {
     return(top==MAX_SIZE-1);
 }
 
-int isEmpty(top)
+int isEmpty(int top)
 {
     return(top==-1);
 }
