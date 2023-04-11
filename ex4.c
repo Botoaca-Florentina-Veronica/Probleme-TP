@@ -66,7 +66,7 @@ void afisare()
     printf("\n");
 }
 
-int el_maxim()
+/*int el_maxim()
 {
     int max=-1;
     int temp;
@@ -80,6 +80,23 @@ int el_maxim()
     }
     return max;
 }
+*/
+
+int getMax() 
+{
+    int i;
+    int max = stack_array[MAX_SIZE];
+    for (i=1; i<=top; i++) 
+    {
+        if (stack_array[i] > max) 
+        {
+            max = stack_array[i];
+        }
+    }
+    return max;
+}
+
+
 int main(void)
 {
     printf("Stiva initiala:\n");
