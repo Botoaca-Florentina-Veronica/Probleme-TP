@@ -51,24 +51,6 @@ int search_element(int key, node_t *head)
     }
 }
 
-int count_of_nodes(node_t *head)
-{
-    int count=0;
-    if(head==NULL)
-    {
-        printf("Linked list is empty!!");
-    }
-    node_t *ptr=NULL;
-    ptr=head;
-    while(ptr!=NULL)
-    {
-        count++;
-        ptr=ptr->link;
-    }
-    return count;
-}
-
-
 int main(void)
 {
    int i;
@@ -90,7 +72,5 @@ int main(void)
    {
     printf("Element not found!");
    }
-
-   printf("The number of nodes in the linked list below is:%d ", count_of_nodes(head));
    return 0;
 }
