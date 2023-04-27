@@ -7,8 +7,7 @@ c) Daca x este 5 insereaza un nou nod pe pozitia 5 avand informatia numarul 5
 (daca nu exista inca destule noduri. atunci se va insera la sfarsit)
 d) Daca este de 2 cifre sterge nodul de pe pozitia egala cu ultima cifra a lui X 
 (daca nu exista destule noduri, se va sterge ultimul element)
--Afiseaza lista, dupa fiecare pas, si explica utilizatorului operatiilor efectuate
-*/
+-Afiseaza lista, dupa fiecare pas, si explica utilizatorului operatiilor efectuate*/
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -20,144 +19,188 @@ typedef struct node
     struct node* link;
 }node_t;
 
-void add_node_start(node_t *head, int data) 
+node_t* head = NULL;
+
+void printList() 
 {
-    node_t *new_node = (node_t *) malloc(sizeof(node_t));
-    new_node->data = data;
-    new_node->link = head;
-    head = new_node;
-}
-
-void insert_node(node_t *head, int data, int pos) 
-{
-    node_t *new_node = (node_t *) malloc(sizeof(node_t));
-    new_node->data = data;
-    if (head == NULL) 
+    node_t* current = head;
+    printf("Lista: ");
+    while (current != NULL) 
     {
-        new_node->link = NULL;
-        head = new_node;
-    } 
-    else 
-    {
-        node_t *curr = head;
-        node_t *prev = NULL;
-        int i = 1;
-        while (i < pos && curr->link != NULL) 
-        {
-            prev = curr;
-            curr = curr->link;
-            i++;
-        }
-        if (prev == NULL) 
-        {
-            new_node->link = curr;
-            head = new_node;
-        } 
-        else 
-        {
-            new_node->link = curr;
-            prev->link = new_node;
-        }
-    }
-}
-
-void delete_node(node_t *head, int pos) 
-{
-    node_t *ptr;
-    ptr=head;
-    int i;
-    if(pos==0)
-    {
-        printf("\nElement deleted is %d\n", ptr->data);
-        ptr=ptr->link;
-        ptr->link=NULL;
-        free(ptr);
-    }
-    else
-    {
-        for(i=1; i<pos-1; i++)
-        {
-            ptr=ptr->link;
-        }
-        node_t *del;
-        del=ptr->link;
-
-        ptr->link=ptr->link->link;
-        printf("\nElement deleted is %d\n", del->data);
-
-        del->link=NULL;
-        free(del);
-    }
-}
-
-void add_node_end(node_t *head, int data) 
-{
-    node_t *ptr;
-    node_t *temp;
-    ptr=head;
-
-    temp=(node_t *)malloc(sizeof(node_t));
-    temp->data=data;
-    temp->link=NULL;
-
-    while(ptr->link!=NULL)
-    {
-        ptr=ptr->link;
-    }
-    ptr->link=temp;
-}
-
-void print_list(node_t *head) 
-{
-    printf("Lista curenta: ");
-    node_t *ptr;
-    ptr = head;
-    while (ptr != NULL) 
-    {
-        printf("%d ", ptr->data);
-        ptr = ptr->link;
+        printf("%d ", current->data);
+        current = current->link;
     }
     printf("\n");
 }
 
+void insertAtEnd(int data) 
+{
+    node_t *newNode = (node_t *)malloc(sizeof(node_t));
+    newNode->data = data;
+    newNode->link = NULL;
+    if (head == NULL) 
+    {
+        head = newNode;
+        return;
+    }
+    node_t *current = head;
+    while (current->link!= NULL) 
+    {
+        current = current->link;
+    }
+    current->link = newNode;
+}
+
+void insertAtBeginning(int data) 
+{
+    node_t *newNode = (node_t *)malloc(sizeof(node_t));
+    newNode->data = data;
+    newNode->link = head;
+    head = newNode;
+}
+
+void insertAtPosition(int position, int data) 
+{
+    node_t *newNode = (node_t *)malloc(sizeof(node_t));
+    newNode->data = data;
+    if (position == 1) 
+    {
+        newNode->link= head;
+        head = newNode;
+        return;
+    }
+    node_t *current = head;
+    int i = 1;
+    while (i < position - 1 && current != NULL) 
+    {
+        current = current->link;
+        i++;
+    }
+    if (current == NULL) 
+    {
+        insertAtEnd(data);
+        return;
+    }
+    newNode->link = current->link;
+    current->link = newNode;
+}
+
+void deleteAtEnd() 
+{
+    if (head == NULL) 
+    {
+        return;
+    }
+    if (head->link == NULL) 
+    {
+        free(head);
+        head = NULL;
+        return;
+    }
+    node_t *current = head;
+    while (current->link->link!= NULL) 
+    {
+        current = current->link;
+    }
+    free(current->link);
+    current->link = NULL;
+}
+
+void deleteAtPosition(int position) 
+{
+    if (head == NULL) 
+    {
+        return;
+    }
+    if (position == 1) 
+    {
+        node_t *temp = head;
+        head = head->link;
+        free(temp);
+        return;
+    }
+    node_t *current = head;
+    int i = 1;
+    while (i < position - 1 && current->link != NULL) 
+    {
+        current = current->link;
+        i++;
+    }
+    if (current->link == NULL) 
+    {
+        deleteAtEnd();
+        return;
+    }
+    node_t *temp = current->link;
+    current->link = temp->link;
+    free(temp);
+}
+
 int main(int argc, char* argv[]) 
 {
-    int i, x, n;
-    node_t *head = NULL;
-    srand(time(NULL));
+    int i, n ,x;
+    srand(time(0));
     if (argc != 2) 
     {
-        printf("Folosire: ./lista N\n");
-        exit(1);
+        printf("Trebuie sa introduceti un numar intreg ca si argument in linia de comanda.\n");
+        return 0;
     }
-    n = atoi(argv[1]);
-
-    for (i=0; i<n; i++) 
+    n= atoi(argv[1]);
+    if (n <= 0) 
     {
-        x = rand() % 200 + 1;
-        printf("Generat numarul %d\n", x);
-        if (x % 7 == 0) 
+        printf("Numarul introdus trebuie sa fie pozitiv si nenul.\n");
+        return 0;
+    }
+
+for (i = 0; i < n; i++) 
+{
+    x = rand() % 200 + 1;
+    printf("Generat numarul pseudoaleatoriu: %d\n", x);
+    if (x % 7 == 0) 
+    {
+        insertAtEnd(x);
+        printf("Inserat la sfarsitul listei nodul cu informatia %d\n", x);
+    }
+    if (x % 3 == 0) 
+    {
+        insertAtBeginning(x);
+        printf("Inserat la inceputul listei nodul cu informatia %d\n", x);
+    }
+    if (x == 5) 
+    {
+        if (head == NULL) 
         {
-            add_node_end(head, x);
-            printf("Adaugat %d la sfarsitul listei\n", x);
-        }
-        if (x % 3 == 0) 
+            insertAtEnd(5);
+            printf("Inserat la sfarsitul listei nodul cu informatia 5\n");
+        } 
+        else 
         {
-            add_node_start(head, x);
-            printf("Adaugat %d la inceputul listei\n", x);
-        }
-        if (x == 5) 
-        {
-            insert_node(head, 5, 5);
-            printf("Inserat %d pe pozitia 5 (daca exista destule noduri)\n", x);
-        }
-        if (x > 9 && x < 100) 
-        {
-        int pos = x % 10;
-        delete_node(head, pos);
-        printf("Sters nodul de pe pozitia %d (daca exista destule noduri)\n", pos);
+            int length = 0;
+            node_t *current = head;
+            while (current != NULL) 
+            {
+                length++;
+                current = current->link;
+            }
+            if (length < 5) 
+            {
+                insertAtEnd(5);
+                printf("Inserat la sfarsitul listei nodul cu informatia 5\n");
+            } 
+            else 
+            {
+                insertAtPosition(5, 5);
+                printf("Inserat pe pozitia 5 nodul cu informatia 5\n");
+            }
         }
     }
-    print_list(head);
-    return 0;  
+    if (x >= 10 && x <= 99) 
+    {
+        int position = x % 10 + 1;
+        deleteAtPosition(position);
+        printf("Sters nodul de pe pozitia %d\n", position);
+    }
+    printList();
+}
+return 0;
 }
