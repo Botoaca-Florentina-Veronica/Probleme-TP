@@ -9,94 +9,155 @@ d) Daca este de 2 cifre sterge nodul de pe pozitia egala cu ultima cifra a lui X
 (daca nu exista destule noduri, se va sterge ultimul element)
 -Afiseaza lista, dupa fiecare pas, si explica utilizatorului operatiilor efectuate
 */
-//varianta vera
 
-#include<stdio.h>
-#include<string.h>
-#include<stdlib.h>
-#include<time.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
-typedef struct node
+typedef struct node 
 {
     int data;
-    struct node *link;
+    struct node* link;
 }node_t;
 
-node_t *intoList(int data)
+void add_node_start(node_t *head, int data) 
 {
-    node_t *newnode=(node_t *)malloc(sizeof(node_t));
-    newnode->data=data;
-    newnode->link=NULL;
-    return newnode;
+    node_t *new_node = (node_t *) malloc(sizeof(node_t));
+    new_node->data = data;
+    new_node->link = head;
+    head = new_node;
 }
 
-void afisare(node_t *head)
+void insert_node(node_t *head, int data, int pos) 
+{
+    node_t *new_node = (node_t *) malloc(sizeof(node_t));
+    new_node->data = data;
+    if (head == NULL) 
+    {
+        new_node->link = NULL;
+        head = new_node;
+    } 
+    else 
+    {
+        node_t *curr = head;
+        node_t *prev = NULL;
+        int i = 1;
+        while (i < pos && curr->link != NULL) 
+        {
+            prev = curr;
+            curr = curr->link;
+            i++;
+        }
+        if (prev == NULL) 
+        {
+            new_node->link = curr;
+            head = new_node;
+        } 
+        else 
+        {
+            new_node->link = curr;
+            prev->link = new_node;
+        }
+    }
+}
+
+void delete_node(node_t *head, int pos) 
 {
     node_t *ptr;
     ptr=head;
-    while(ptr!=NULL)
+    int i;
+    if(pos==0)
     {
-        printf("%d\n", ptr->data);
+        printf("\nElement deleted is %d\n", ptr->data);
         ptr=ptr->link;
+        ptr->link=NULL;
+        free(ptr);
     }
-    printf("\n");
+    else
+    {
+        for(i=1; i<pos-1; i++)
+        {
+            ptr=ptr->link;
+        }
+        node_t *del;
+        del=ptr->link;
+
+        ptr->link=ptr->link->link;
+        printf("\nElement deleted is %d\n", del->data);
+
+        del->link=NULL;
+        free(del);
+    }
 }
 
-void adaugare_element_final(node_t *head, int data)
+void add_node_end(node_t *head, int data) 
 {
-    node_t *newnode=(node_t *)malloc(sizeof(node_t));
-    newnode->data=data;
-    newnode->link=NULL;
-
-
-    if(head==NULL)
-    {
-        head=newnode;
-        return;
-    }
     node_t *ptr;
+    node_t *temp;
     ptr=head;
+
+    temp=(node_t *)malloc(sizeof(node_t));
+    temp->data=data;
+    temp->link=NULL;
+
     while(ptr->link!=NULL)
     {
         ptr=ptr->link;
     }
-    ptr->link=newnode;
+    ptr->link=temp;
 }
 
-void adaugare_element_initial(node_t *head, int data)
+void print_list(node_t *head) 
 {
-    node_t *newnode=(node_t *)malloc(sizeof(node_t));
-    newnode->data=data;
-    newnode->link=head;
-    head=data;
-}
-
-int main(int argc, char *argv[])
-{
-    node_t *head;
-    printf("Lista initiala:\n");
-    head=intoList(34);
-    head->link=intoList(45);
-    head->link->link=intoList(56);
-    afisare(head);
-    if(argc!=2)
+    printf("Lista curenta: ");
+    node_t *ptr;
+    ptr = head;
+    while (ptr != NULL) 
     {
-        printf("Numar incorect de argumente in linie de comanda!!");
+        printf("%d ", ptr->data);
+        ptr = ptr->link;
+    }
+    printf("\n");
+}
+
+int main(int argc, char* argv[]) 
+{
+    int i, x, n;
+    node_t *head = NULL;
+    srand(time(NULL));
+    if (argc != 2) 
+    {
+        printf("Folosire: ./lista N\n");
         exit(1);
     }
+    n = atoi(argv[1]);
 
-
-    //a)
-    printf("Lista cu elementul final divizibil cu 7")
-    if(atoi(argv[1])%7==0)
+    for (i=0; i<n; i++) 
     {
-        adaugare_element_final(head, atoi(argv[1]));
+        x = rand() % 200 + 1;
+        printf("Generat numarul %d\n", x);
+        if (x % 7 == 0) 
+        {
+            add_node_end(head, x);
+            printf("Adaugat %d la sfarsitul listei\n", x);
+        }
+        if (x % 3 == 0) 
+        {
+            add_node_start(head, x);
+            printf("Adaugat %d la inceputul listei\n", x);
+        }
+        if (x == 5) 
+        {
+            insert_node(head, 5, 5);
+            printf("Inserat %d pe pozitia 5 (daca exista destule noduri)\n", x);
+        }
+        if (x > 9 && x < 100) 
+        {
+        int pos = x % 10;
+        delete_node(head, pos);
+        printf("Sters nodul de pe pozitia %d (daca exista destule noduri)\n", pos);
+        }
     }
-    afisare(head);
-
-    //b)
-    printf("Lista cu elementul initial divizibil cu 3")''
-    if(atoi(argv[2]))
-    return 0;
+    print_list(head);
+    return 0;  
 }
-
