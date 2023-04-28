@@ -21,14 +21,15 @@ typedef struct node
 
 node_t* head = NULL;
 
-void printList() 
+void printList(node_t *head) 
 {
-    node_t* current = head;
+    node_t *ptr;
+    ptr = head;
     printf("Lista: ");
-    while (current != NULL) 
+    while (ptr != NULL) 
     {
-        printf("%d ", current->data);
-        current = current->link;
+        printf("%d ", ptr->data);
+        ptr = ptr->link;
     }
     printf("\n");
 }
@@ -106,35 +107,37 @@ void deleteAtEnd()
     current->link = NULL;
 }
 
-void deleteAtPosition(int position) 
+void deleteAtPosition(int pos, node_t *head) 
 {
     if (head == NULL) 
     {
         return;
     }
-    if (position == 1) 
+    if (pos == 1) 
     {
         node_t *temp = head;
-        head = head->link;
+        head = (head)->link;
         free(temp);
         return;
     }
     node_t *current = head;
     int i = 1;
-    while (i < position - 1 && current->link != NULL) 
+    while (i < pos-1 && current->link != NULL) 
     {
         current = current->link;
         i++;
     }
     if (current->link == NULL) 
     {
-        deleteAtEnd();
+        // pos is greater than the length of the list
         return;
     }
     node_t *temp = current->link;
-    current->link = temp->link;
+    current->link = current->link->link;
     free(temp);
 }
+
+
 
 int main(int argc, char* argv[]) 
 {
@@ -196,11 +199,11 @@ for (i = 0; i < n; i++)
     }
     if (x >= 10 && x <= 99) 
     {
-        int position = x % 10 + 1;
-        deleteAtPosition(position);
-        printf("Sters nodul de pe pozitia %d\n", position);
+        int pos = x % 10;
+        deleteAtPosition(pos, head);
+        printf("Sters nodul de pe pozitia %d\n", pos);
     }
-    printList();
+    printList(head);
 }
 return 0;
 }
