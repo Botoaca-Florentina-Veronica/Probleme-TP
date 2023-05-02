@@ -10,6 +10,7 @@ typedef struct node
     struct node *link;
 }node_t;
 
+node_t *head=NULL;
 
 void insert_at_Beggining(int data)
 {
@@ -32,7 +33,6 @@ void print_list(node_t *head)
     printf("\n");
 }
 
-
 int count_nodes(node_t *head)
 {
     node_t *ptr;
@@ -46,15 +46,19 @@ int count_nodes(node_t *head)
     return count;
 }
 
-int *make_array_from_list(node_t *head, int *size)
+int *make_array_from_list(node_t *head)
 {
-    int i, count=0;
+    int i=0, count=0;
     count = count_nodes(head);
 
     //alocam dinamic spatiu pentru vector
     int *v;
     v=(int *)malloc(count * sizeof(int));
-
+    if(v==NULL)
+    {
+        printf("NU s-a putut aloca memorie pentru vector!");
+        exit(1);
+    }
     //copiem elementele listei în tablou
     node_t *ptr;
     ptr=head;
@@ -63,14 +67,11 @@ int *make_array_from_list(node_t *head, int *size)
         v[i++]=ptr->data;
         ptr=ptr->link;
     }
-    // setăm valoarea parametrului "size"
-    *size=count;
     return v;
 }
 
 int main(void)
 {
-    node_t *head=NULL;
     insert_at_Beggining(4);
     insert_at_Beggining(5);
     insert_at_Beggining(6);
@@ -78,14 +79,14 @@ int main(void)
     insert_at_Beggining(8);
     print_list(head);
 
-    /*printf("Tabloul de elemente este:\n");
-    int i, size;
-    int *v=make_array_from_list(head, &size);
-    for(i=0; i<size; i++)
+    printf("Tabloul de elemente este:\n");
+    int i=0;
+    int *v=make_array_from_list(head);
+    for(i=0; i<count_nodes(head); i++)
     {
         printf("%d ", v[i]);
     }
     printf("\n");
-    free(v);*/
+    free(v);
     return 0;
 }
