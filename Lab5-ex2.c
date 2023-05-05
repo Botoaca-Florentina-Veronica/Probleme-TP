@@ -1,39 +1,39 @@
-//Implementati o functie unsigned* makeRandArray(unsigned seed, unsigned n), care primeste un seed si un numar natural n si 
-//returneaza un vector alocat dinamic, continand n numere naturale pseodoaleatoare, uniform distribuite
+//Implementati o functie int* makeRandLimitArray(int seed, unsigned n, int a, int b) care primeste un seed, si 
+//numerele naturale n, a si b si returneaza un vector alocat dinamic, 
+//continand n numere intregi pseudoaleatoare, uniform distribuite, cuprinse intre a si b
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 
-unsigned *makeRandArray(unsigned seed, unsigned n) 
+int *makeRandLimitArray(int seed, unsigned n, int a, int b)
 {
-    int i;
-    // alocam memorie pentru vectorul de n elemente
-    unsigned* v;
-    v = (unsigned*)malloc(n * sizeof(unsigned));
-    
-    // setam seed-ul pentru generatorul de numere aleatoare
-    srand(seed);
-    
-    // generam n numere pseudorandom, uniform distribuite
-    for (i = 0; i < n; i++) 
+    int i, *v;
+    int interval;
+    interval = b - a + 1;
+    v = (int *)malloc(n * sizeof(int));
+    if (v == NULL)
     {
-        v[i] = rand();
+        printf("Eroare alocare dinamica");
+        exit(1);
     }
-    
+    srand(seed);
+    for (i = 0; i < n; i++)
+    {
+        v[i] = rand() % interval + a;
+    }
     return v;
 }
 
-int main(void) 
+int main(void)
 {
+
     int i;
-    unsigned* v;
-    v = makeRandArray(234, 10);
-    // afisam vectorul de numere pseudorandom
-    for (i=0; i<10; i++) 
+    int *v;
+    v = makeRandLimitArray(345, 10, 1, 100);
+    for (i = 0; i < 10; i++)
     {
-        printf("%u ", v[i]);
+        printf("%d ", v[i]);
     }
-    // eliberam memoria alocata pentru vector
-    free(v);
-    return 0;
+    printf("\n");
 }
