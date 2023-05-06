@@ -25,10 +25,10 @@ double f(double x)
     return x*x - 3;  // definim functia f(x) = x^2 - 3
 }
 
-double bisection(double a, double b, double eps) 
+double bisection(double a, double b, double epsilon) 
 {
     double c;
-    while (b - a > eps) 
+    while (b - a > epsilon) 
     {  
         // cat timp intervalul mai este mai mare decat precizia
         c = (a + b) / 2;  // calculam mijlocul intervalului
@@ -50,8 +50,8 @@ double bisection(double a, double b, double eps)
 
 int main(void) 
 {
-    double a = 1, b = 3, eps = 1e-6;
-    double root = bisection(a, b, eps);
-    printf("O rădăcină a funcției x^2 - 3 în intervalul [%g, %g] cu precizia %g este: %g\n", a, b, eps, root);
+    double a = 1, b = 3, epsilon = 1e-6;
+    double root = bisection(a, b, epsilon);
+    printf("O rădăcină a funcției x^2 - 3 în intervalul [%g, %g] cu precizia %g este: %g\n", a, b, epsilon, root);
     return 0;
 }
