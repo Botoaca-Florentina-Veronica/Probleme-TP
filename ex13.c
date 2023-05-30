@@ -9,15 +9,37 @@ typedef struct node
     struct node *link;
 }node_t;
 
-node_t *intoList(int data)
+
+//functie pentru adaugarea unui element la sfarsitul listei
+void add(node_t **head, int data)
 {
-    node_t *newnode=(node_t *)malloc(sizeof(node_t));
+    //cream un nod nou
+    node_t *newnode;
+    newnode=(node_t *)malloc(sizeof(node_t));
     newnode->data=data;
     newnode->link=NULL;
-    return newnode;
+
+    //daca lista e goala, facem noul nod capul listei
+    if(*head==NULL)
+    {
+        *head=newnode;
+        return;
+    }
+
+    //parcurgem lista pana la ultimul nod
+    node_t *last;
+    last=*head;
+    while(last->link!=NULL)
+    {
+        last=last->link;
+    }
+
+    //adaugam noul nod la sfarsitul listei
+    last->link=newnode;
 }
 
-void afisare(node_t *head)
+
+void print_list(node_t *head)
 {
     node_t *ptr;
     ptr=head;
@@ -58,22 +80,22 @@ node_t *delete_last_node(node_t *head)
     return head;
 }
 
+
 int main(void)
 {
     node_t *head;
-    printf("Initial linked list is:\n");
-    head=intoList(69);
-    head->link=intoList(32);
-    head->link->link=intoList(56);
-    head->link->link->link=intoList(21);
-    afisare(head);
+    head=NULL;
+    add(&head, 3);
+    add(&head, 4);
+    add(&head, 5);
+    printf("Lista initiala:\n");
+    print_list(head);
 
-    printf("The new liked list with the last element deleted:\n");
-    head=delete_last_node(head);
-    afisare(head);
+    delete_last_node(head);
+    printf("Lista cu ultimul element sters:\n");
+    print_list(head);
     return 0;
 }
-
 
 
 //delete the last node in a linked list, using only one pointer
