@@ -33,35 +33,43 @@ void add(node_t **head, int data)
     last_node->link=newnode;
 }
 
+// Function to delete even nodes from the linked list
 node_t *delete_even_node(node_t *head)
 {
-    node_t *ptr = head;
-    node_t *prev = NULL;
-
-    while (ptr != NULL)
+    if (head == NULL)
     {
-        if (ptr->data % 2 == 0)
-        {
-            if (prev == NULL)  // If the first node is even
-            {
-                head = ptr->link;
-            }
-            else
-            {
-                prev->link = ptr->link;
-            }
-
-            node_t *temp = ptr;
-            ptr = ptr->link;
-            free(temp);
-        }
-        else
-        {
-            prev = ptr;
-            ptr = ptr->link;
-        }
+        printf("Linked list is already empty!");
+        exit(1);
     }
 
+    node_t *curr = head;
+    node_t *prev = NULL;
+
+    while (curr != NULL) 
+    {
+        if (curr->data % 2 == 0) 
+        {
+            if (prev == NULL) 
+            {
+                // Deleting the first node if it is even
+                head = curr->link;
+                free(curr);
+                curr = head;
+            } 
+            else 
+            {
+                // Deleting an even node, other than the first node
+                prev->link = curr->link;
+                free(curr);
+                curr = prev->link;
+            }
+        } 
+        else 
+        {
+            prev = curr;
+            curr = curr->link;
+        }
+    }
     return head;
 }
 
