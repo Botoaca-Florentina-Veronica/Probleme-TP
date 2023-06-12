@@ -1,7 +1,5 @@
-//Delete the last occurrence of an item from a linked list. 
-//So if the item is 7 and the list is [1,3,7,4,3,7,2], the result is [1,3,7,4,3,2].#include<stdio.h>
 /*Delete the last occurrence of an item from a linked list. 
-//So if the item is 7 and the list is [1,3,7,4,3,7,2], the result is [1,3,7,4,3,2].*/
+So if the item is 7 and the list is [1,3,7,4,3,7,2], the result is [1,3,7,4,3,2].*/
 #include<stdio.h>
 #include<string.h>
 #include<stdlib.h>
