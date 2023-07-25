@@ -90,18 +90,27 @@ void add(node_t **head, int data)
 int main(void)
 {
     node_t *head=NULL;
-    add(&head, 1);
+    add(&head, 7);
+    add(&head, 7);
+    add(&head, 7);
+    add(&head, 7);
     add(&head, 3);
     add(&head, 7);
-    add(&head, 4);
-    add(&head, 3);
     add(&head, 7);
-    add(&head, 2);
     printf("Lista initiala este:\n");
     print_list(head);
 
-    printf("Lista inalantuita fara numar 7 este:\n");
-    delete_specific_item(head, 7);
-    print_list(head);
+
+    // Function call
+    head=delete_specific_item(head, 7);
+	if (head==NULL)
+	{
+        printf("\nNo element present in the Linked list\n");
+    }
+	else 
+    {
+		printf("\nLinked List after Deletion is:\n");
+		print_list(head);
+	}
     return 0;
 }
