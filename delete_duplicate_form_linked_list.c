@@ -38,15 +38,19 @@ void remove_duplicates(node_t *head)
     node_t *ptr = head;
     while (ptr != NULL && ptr->link != NULL)
     {
-        node_t *ptr2 = ptr->link;
-        while (ptr2->data == ptr->data)
+        if (ptr->data == ptr->link->data)
         {
-            ptr->link = ptr2->link;
-            free(ptr2);
+            node_t *duplicate = ptr->link;
+            ptr->link = duplicate->link;
+            free(duplicate);
         }
-        ptr = ptr->link;
+        else
+        {
+            ptr = ptr->link;
+        }
     }
 }
+
 
 void print_list(node_t *head)
 {
@@ -65,11 +69,11 @@ int main(void)
     node_t *head;
     head=NULL;
     add(&head, 1);
-    add(&head, 2);
-    add(&head, 3);
-    add(&head, 3);
-    add(&head, 4);
-    add(&head, 4);
+    add(&head, 1);
+    add(&head, 1);
+    add(&head, 1);
+    add(&head, 1);
+    add(&head, 1);
     printf("Lista initiala:\n");
     print_list(head);
 
