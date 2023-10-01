@@ -18,7 +18,7 @@ void add(node_t **head, int data)
 
     if(newnode==NULL)
     {
-        printf("Eroare la alocarea dinamica a memoriei pt noul nod!")'
+        printf("Eroare la alocarea dinamica a memoriei pt noul nod!");
         exit(1);
     }
 
