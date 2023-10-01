@@ -32,6 +32,12 @@ void add_last_node(node_t **head, int data)
     newnode->data=data;
     newnode->link=NULL;
 
+    if(newnode==NULL)
+    {
+        printf("Eroare la alocarea dinamica a memoriei pt nod!");
+        exit(1);
+    }
+    
     if(*head==NULL)
     {
         //daca lista este goala atunci noul element va deveni chiar capul listei
@@ -69,7 +75,7 @@ node_t *delete_nodes(node_t *head)
                 //si astfel sa pierdem legaturile cu celelalte elemente ale listei
                 head=curr->link;
                 free(curr);  //aici eliberam memoria accesata de pointerul curent (care e si par)
-                curr=head->link; //*1.
+                curr=head; //*1.
             }
             else
             //daca ajungem aici inseamna ca avem si alte noduri pare inafara de capul listei
