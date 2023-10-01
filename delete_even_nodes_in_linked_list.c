@@ -81,7 +81,7 @@ node_t *delete_nodes(node_t *head)
             //daca ajungem aici inseamna ca avem si alte noduri pare inafara de capul listei
             {
                 prev->link=curr->link;
-                free(curr);
+                free(curr);    //eliberez memoria, nu sterg intrgul nod!!!
                 curr=prev->link;  // *2.   aici ca si la *1 am scris aceasta linie de cod fiindca pointerul meu curr trebuie
                 // mereu schimbat la urmatorul, nu sa stea pe loc
             }
