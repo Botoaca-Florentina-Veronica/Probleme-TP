@@ -70,6 +70,12 @@ void add(node_t **head, int data)
     newnode->data=data;
     newnode->link=NULL;
 
+    if(newnode==NULL)
+    {
+        printf("Eroare la alocarea dinamica a memoriei pt noul nod!")'
+        exit(1);
+    }
+
     node_t *last_node;
     last_node=*head;
     if(*head==NULL)
