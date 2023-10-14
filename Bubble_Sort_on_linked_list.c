@@ -64,8 +64,7 @@ void swap(node_t *a, node_t *b)
 void bubbleSort(node_t *head)
 {
     int swapped;
-    node_t *ptr1, *ptr2;
-    ptr2=NULL;
+    node_t *ptr1;
 
     //verificam mereu daca lista e goala!
     if(head==NULL)
@@ -77,7 +76,9 @@ void bubbleSort(node_t *head)
     {
         swapped = 0;
         ptr1=head;
-        while(ptr1->link!=ptr2)
+        //nu il initializez de la inceput pe ptr1 cu capul listei fiindca mai jos il voi schimba
+        //si vreau de fiecare data sa il reinitializez
+        while(ptr1->link!=NULL)
         {
             //compar informatia unui nod cu cea a vecinului sau
             if(ptr1->data > ptr1->link->data)
@@ -91,7 +92,6 @@ void bubbleSort(node_t *head)
             //trec la urmatorul nod pentru a urma sa il compar
             ptr1=ptr1->link;
         }
-        ptr2=ptr1;
     } 
     while (swapped);
     
@@ -104,6 +104,9 @@ int main(void)
     add_last_element(&head, 4);
     add_last_element(&head, 23);
     add_last_element(&head, 2);
+    add_last_element(&head, 20);
+    add_last_element(&head, 14);
+    add_last_element(&head, 17);
     add_last_element(&head, 11);
     print_list(head);
     printf("\n");
