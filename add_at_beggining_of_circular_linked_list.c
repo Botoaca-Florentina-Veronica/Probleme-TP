@@ -38,6 +38,7 @@ void print_list(node_t *tail)
 	ptr = tail->link;
 	//facem do-while fiindca daca incep direct cu while, bucla mea se va termina inainte sa inceapa sa parcurga lista
 	//fiindca deja am initializat pointer ul ptr cu valoarea limita a conditiei
+	//astfel incep de la ultimul element si parcurg lista pana ajung tot la acelasi element, dupa care ies din bucla while
 	do
 	{
 		printf("%d ", ptr->data);
