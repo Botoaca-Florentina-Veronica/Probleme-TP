@@ -70,7 +70,7 @@ node_t *delete_nodes(node_t *head)
             if(prev==NULL)
             {
                 //daca chiar capul listei este par atunci il vom sterge
-                //intai vom schimba adresa la care pointer ul head  "pointeaza" pentru ca daca o facem inainte
+                //intai vom schimba adresa la care pointer ul head  "pointeaza" pentru ca daca o facem după
                 //riscam sa pierdem informatia pe care acesta o contine
                 //si astfel sa pierdem legaturile cu celelalte elemente ale listei
                 head=curr->link;
